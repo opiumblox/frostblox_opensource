@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Frostblox Signup Test</title>
+</head>
+<body>
+
+<h2>Frostblox Signup</h2>
+
+<input id="email" placeholder="Email"><br><br>
+<input id="username" placeholder="Username"><br><br>
+<input id="password" type="password" placeholder="Password"><br><br>
+
+<button onclick="signUp()">Create Account</button>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script>
+const supabase = supabase.createClient(
+  "https://ktygawbtpkwoxwyfogml.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt0eWdhd2J0cGt3b3h3eWZvZ21sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAwNjgwNTQsImV4cCI6MjA4NTY0NDA1NH0.69Gouqv6xu2JOb4-17BcxY-IFhTP25pyle81kaoMMT8"
+);
+
+async function signUp() {
+  const email = emailInput.value;
+  const password = passwordInput.value;
+  const username = usernameInput.value;
+
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password
+  });
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  await supabase.from("frostblox_users").insert({
+    user_id: data.user.id,
+    username: username
+  });
+
+  alert("Frostblox account created ❄️");
+}
+</script>
+
+</body>
+</html>
